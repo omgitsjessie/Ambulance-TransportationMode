@@ -1,0 +1,45 @@
+##This code snippet creates a plot of multiple log odds ratio values.
+##log odds ratios were calculated in a different program, then just hard coded in.
+##Jessie Mueller, June 5 2012
+
+#Define the OR, min values, and max values for the CI
+logmeans.diseaseoddsratio <- c(0.753965866,0.362859303,0.357363031,2.418833059,
+0.602710945,0.462996612,0.964825118,0.992862671,0.499961866,0.867938651,
+1.822168079,0.733197265,0.582517884,0.442479769,1.203712641)
+logmax.diseaseoddsratio <- c(1.461573554,0.686278678,0.694254112,2.836581071,
+0.943543977,0.78518742,1.520810932,1.43716371,0.962321973,1.478263394,
+2.377237021,1.130976692,0.942652812,0.742803658,1.606918526)
+logmin.diseaseoddsratio <- c(0.046495164,0.039414119,0.020361283,2.001084381,
+0.261976191,0.14082218,0.408918021,0.548512256,0.037426498,0.257678575,
+1.267101297,0.335457901,0.222456337,0.142076461,0.800510877)
+
+logmeansround.diseaseoddsratio <- c(0.75,0.36,0.36,2.42,
+0.60,0.46,0.96,0.99,0.50,0.87,1.82,0.73,0.58,0.44,1.20)
+
+#display those vectors to make sure everything is dandy
+logmin.diseaseoddsratio
+logmeans.diseaseoddsratio
+logmax.diseaseoddsratio
+
+#Define the name vector--this will be used later in the labels for the x-axis
+names(means.diseaseoddsratio) <- c("Airway Obstruct","Altered LOC","Breathing Prob","Cardiac Arrest","Cardiac Sympt.","Chest Pain","CHFPE","Heart Cardiac","Not Entered","OB","Resp. Arrest","Resp. Distress","StrokeCVA","Trauma","Uncon./Unknown")
+
+#make the bottom margin larger to accomodate the text labels
+par(mar=c(10,5,4,3)+0.1)
+
+#Plot the graph, suppress x-axis title, choose the symbol (pch), delete the x-axis (xaxt)
+#add new title at line 8 to replace the suppressed x-axis title (mtext), show labels as the rounded
+#values for the odds ratio, suppress the points (cex=0) so labels show up only,
+plotCI(x=logmeans.diseaseoddsratio, ui=logmax.diseaseoddsratio, li=logmin.diseaseoddsratio, 
+labels=logmeansround.diseaseoddsratio, xlim = c(0.5,15.5), ylim = c(-0.5,3), ylab="log(Odds Ratio)", xlab="", 
+main="Log Odds Ratios and 95% CIs for Association of Patient Illnesses with Lights and Siren", xaxt='n', cex=0)
+mtext("Primary Patient Illness",side=1,line=8)
+
+#Create a red dashed line at y=0 (where log odds ratio is significant)
+abline(h=0,lty=2,col="red")
+
+#Redraw your x-axis, with 15 new tick marks, and replacing the tic mark labels with your
+#naming vector, and making the text perpendicular (las=2)
+axis(side=1,at=1:15,labels=names(means.diseaseoddsratio),las=2)
+
+
